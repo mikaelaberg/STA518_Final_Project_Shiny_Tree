@@ -1,0 +1,159 @@
+---
+title: "Project Investigation"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Library Imports 
+```{r}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+
+```
+
+apex: Phylogenetic Methods for Multiple Gene Data
+from: https://github.com/thibautjombart/apex
+
+Testing out this package and its test data to make the sequence graphs and the phyolgenetic tree and maybe take these and put these on a shiny. 
+
+So its like a user can browse the index...it kind of already exist with the genome browser but this is like a baby version of it. 
+
+```{r}
+library(apex) 
+#note phangorn and ape had to be installed with this 
+```
+
+
+# Following outline in the apex github
+```{r}
+## get address of the file within apex
+files <- dir(system.file(package="apex"),patter="patr", full=TRUE)
+files # this will change on your computer
+```
+
+ Reading FASTA files from the tutoiral, but I wonder if I can import my own multipule seq alignmnets/FASTA files? Or maybe there are others to be explored in this data set.
+```{r}
+## read these files
+x <- read.multiFASTA(files)
+# x
+```
+
+```{r}
+names(x@dna) # names of the genes
+```
+### Graphing Loci
+```{r fig.asp=2, fig.width='200px'}
+par(mar=c(6,11,2,1))
+plot(x)
+
+```
+
+```{r}
+z <- read.multiphyDat(files, format="fasta")
+z
+
+```
+
+
+```{r}
+getClassDef("multidna")
+```
+
+
+
+```{r}
+## empty object
+new("multidna")
+```
+
+```{r}
+## using a list of genes as input
+data(woodmouse)
+woodmouse
+```
+
+
+
+
+```{r}
+genes <- list(gene1=woodmouse[,1:500], gene2=woodmouse[,501:965])
+x <- new("multidna", genes)
+x
+```
+
+
+```{r}
+## access the various slots
+getNumInd(x) # The number of individuals
+
+```
+
+```{r}
+getNumLoci(x) # The number of loci
+```
+
+
+
+```{r}
+getLocusNames(x) # The names of the loci
+```
+
+
+```{r}
+getSequenceNames(x) # A list of the names of the sequences at each locus
+```
+
+
+
+
+
+
+```{r}
+getSequences(x) # A list of all loci
+```
+
+
+
+
+```{r}
+getSequences(x, loci = 2, simplify = FALSE) # Just the second locus (a single element list)
+```
+
+
+
+
+
+```{r}
+getSequences(x, loci = "gene1") # Just the first locus as a DNAbin object
+```
+### Graphing New Loci Data
+```{r fig.asp=2, fig.width='200px',}
+## compare the input dataset and the new multidna
+par(mfrow=c(3,1), mar=c(6,6,2,1))
+image(woodmouse)
+image(as.matrix(getSequences(x, 1)))
+image(as.matrix(getSequences(x, 2)))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

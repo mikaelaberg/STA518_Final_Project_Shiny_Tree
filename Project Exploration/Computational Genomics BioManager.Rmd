@@ -1,0 +1,24 @@
+---
+title: "Computational Genomics"
+author: "Mikaela Berg"
+date: "1/24/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Library Imports 
+```{r}
+library(tidyverse)
+library(BiocManager)
+```
+
+```{r}
+
+```
+
+
+
+
