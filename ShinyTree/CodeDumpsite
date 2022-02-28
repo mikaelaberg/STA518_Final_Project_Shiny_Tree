@@ -1,0 +1,162 @@
+Code Dumpsite: 
+
+--The code below lets you select from datasets and then shows some graphics from it--
+library(ggplot2)
+datasets <- data(package = "ggplot2")$results[c(2, 4, 10), "Item"]
+
+library(shiny)
+ui <- fluidPage(
+  selectInput("dataset", "Dataset", choices = datasets),
+  verbatimTextOutput("summary"),
+  # 1. Change tableOutput to plotOutput.
+  plotOutput("plot")
+)
+
+server <- function(input, output, session) {
+  dataset <- reactive({
+    get(input$dataset, "package:ggplot2")
+  })
+  # 2. Change summry to summary.
+  output$summary <- renderPrint({
+    summary(dataset())
+  })
+  output$plot <- renderPlot({
+    # 3. Change dataset to dataset().
+    plot(dataset())
+  })
+}
+
+shinyApp(ui, server)
+
+
+--Text Input---
+ui <- fluidPage(
+    textInput("name", "What's your name?"),
+    passwordInput("password", "What's your password?"),
+    textAreaInput("story", "Tell me about yourself", rows = 3)
+)
+
+  textInput("text", label = h3("Text input"), value = "Enter text..."),
+  
+  hr(),
+  fluidRow(column(3, verbatimTextOutput("value")))
+   
+
+
+--Dropdow---
+ui <- fluidPage(
+    selectInput(
+        "state", "What's your favourite state?", state.name,
+        multiple = TRUE
+    )
+)
+
+
+  selectInput("select", label = h3("Select box"), 
+    choices = list("Choice 1" = 1, "Choice 2" = 2, "Choice 3" = 3), 
+    selected = 1),
+  
+  hr(),
+  fluidRow(column(3, verbatimTextOutput("value")))
+  
+)
+
+--Upload--
+ui <- fluidPage(
+    fileInput("upload", NULL)
+)
+
+    fileInput("file", label = h3("File input")),
+    
+    hr(),
+    fluidRow(column(4, verbatimTextOutput("value")))
+)
+
+
+--Buttons--
+ui <- fluidPage(
+    fluidRow(
+        actionButton("click", "Click me!", class = "btn-danger"),
+        actionButton("drink", "Drink me!", class = "btn-lg btn-success")
+    ),
+    fluidRow(
+        actionButton("eat", "Eat me!", class = "btn-block")
+    )
+)
+
+
+--Radio Buttons-- 
+  radioButtons("radio", label = h3("Radio buttons"),
+    choices = list("Choice 1" = 1, "Choice 2" = 2, "Choice 3" = 3), 
+    selected = 1),
+  
+  hr(),
+  fluidRow(column(3, verbatimTextOutput("value")))
+  
+)
+
+
+-button from shiny material https://ericrayanderson.github.io/shinymaterial/ - 
+ material_button(
+   input_id = "example_button",
+   label = "BUTTON",
+   depth = 5
+ )
+ 
+  material_button(
+   input_id = "example_button",
+   label = "DEEP_ORANGE",
+   color = "deep-orange"
+ )
+
+--NavBar--
+navbarPage( "Page title",
+    tabPanel("Panel 1"),
+    tabPanel("Panel 2"),
+    tabPanel("Panel 3")
+)
+    
+
+
+
+library(shiny)
+ui <- fluidPage(
+    navbarPage( "Page title",
+        tabPanel("Panel 1"),
+        tabPanel("Panel 2"),
+        tabPanel("Panel 3")
+    )
+)
+
+
+server <- function(input, output, session) {
+    output$greeting <- renderText({
+        paste0("Hello ", input$name, "!")
+    })
+}
+
+shinyApp(ui, server)
+
+--Bslib colors--
+“cerulean”, 
+“cosmo”, 
+“cyborg”, 
+“darkly”, 
+“flatly”, 
+“journal”, 
+“litera”, 
+“lumen”, 
+“lux”, 
+“materia”, 
+“minty”, 
+“pulse”, 
+“sandstone”, 
+“simplex”, 
+“sketchy”, 
+“slate”, 
+“solar”,
+“spacelab”, 
+“superhero”, 
+“united”, 
+“yeti”
+
